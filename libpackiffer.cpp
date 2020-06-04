@@ -117,30 +117,49 @@ void sniff_socket(int socket_descriptor, int ifr_index){
         case 2048: // ip
 
             printf("\nIP Header\n");
-            printf("\t|-Version : %d\n",(unsigned int)ip->version);
-            printf("\t|-Internet Header Length : %d DWORDS or %d Bytes\n",(unsigned int)ip->ihl,((unsigned int)(ip->ihl))*4);
-            printf("\t|-Type Of Service : %d\n",(unsigned int)ip->tos);
-            printf("\t|-Total Length : %d Bytes\n",ntohs(ip->tot_len)); 
-            printf("\t|-Identification : %d\n",ntohs(ip->id));
-            printf("\t|-Time To Live : %d\n",(unsigned int)ip->ttl);
-            printf("\t|-Protocol : %d\n",(unsigned int)ip->protocol);
-            printf("\t|-Header Checksum : %d\n",ntohs(ip->check));
+            printf("\t|-Version : %d\n", (unsigned int)ip->version);
+            printf("\t|-Internet Header Length : %d DWORDS or %d Bytes\n", (unsigned int)ip->ihl,((unsigned int)(ip->ihl))*4);
+            printf("\t|-Type Of Service : %d\n", (unsigned int)ip->tos);
+            printf("\t|-Total Length : %d Bytes\n", ntohs(ip->tot_len)); 
+            printf("\t|-Identification : %d\n", ntohs(ip->id));
+            printf("\t|-Time To Live : %d\n", (unsigned int)ip->ttl);
+            printf("\t|-Protocol : %d\n", (unsigned int)ip->protocol);
+            printf("\t|-Header Checksum : %d\n", ntohs(ip->check));
             printf("\t|-Source IP : %s\n", inet_ntoa(source.sin_addr));
-            printf("\t|-Destination IP : %s\n",inet_ntoa(dest.sin_addr));
+            printf("\t|-Destination IP : %s\n", inet_ntoa(dest.sin_addr));
 
             switch ((unsigned int)ip->protocol) {
             
             case 17: // udp
 
                 printf("\nUDP Header\n");
-                printf("\t|-Source Port : %d\n",ntohs(udp->source));
-                printf("\t|-Source Port : %d\n",ntohs(udp->dest));
+                printf("\t|-Source Port : %d\n", ntohs(udp->source));
+                printf("\t|-Destination Port : %d\n", ntohs(udp->dest));
                 printf("\t|-Length : %d\n", ntohs(udp->len));
                 printf("\t|-Checksum : %d\n", ntohs(udp->check));
 
                 break;
             
             case 6: // tcp
+
+                printf("\nTCP Header\n");
+                printf("\t|-Source Port : %d\n", ntohs(tcp->source));
+                printf("\t|-Destination Port : %d\n", ntohs(tcp->dest));
+                printf("\t|-Sequence Number : %d\n", ntohl(tcp->seq));
+                printf("\t|-Acknowledgement Number : %d\n", ntohl(tcp->ack_seq));
+                printf("\t|-Window : %d\n", ntohs(tcp->window));
+                printf("\t|-Checksum : %d\n", ntohs(tcp->check));
+                printf("\t|-Urgent Pointer : %d\n", ntohs(tcp->urg_ptr));
+                printf("\t\t|-Data Offset : %d\n", ntohs(tcp->doff));
+                printf("\t\t|-Reserved : %d\n", ntohs(tcp->res1));
+                printf("\t\t|-Reserved : %d\n", ntohs(tcp->res2));
+                printf("\t\tFlags\n");                             
+                printf("\t\t|-No More Data From Sender : %d\n", ntohs(tcp->fin));
+                printf("\t\t|-Synchronize Sequence Numbers : %d\n", ntohs(tcp->syn));
+                printf("\t\t|-Reset The Connection : %d\n", ntohs(tcp->rst));
+                printf("\t\t|-Push Function : %d\n", ntohs(tcp->psh));
+                printf("\t\t|-Acknowledgment Field Significant : %d\n", ntohs(tcp->ack));
+                printf("\t\t|-Urgent Pointer Field Significant : %d\n", ntohs(tcp->urg));
 
                 break;
             }

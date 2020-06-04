@@ -24,6 +24,10 @@ const int LOOP =  0x0060;
 
 const int PACKET_LENGTH = 65535;
 
+const int DISPLAY_IN_TERMINAL = 0;
+const int DUMP_IN_FILE = 1;
+const int DISPLAY_AND_DUMP = 2;
+
 int create_socket(int protocol);
 int set_socket_options(int socket_descriptor, int promiscuous, const char * interface, int protocol);
 void sniff_socket(int socket_descriptor, int ifr_index);
